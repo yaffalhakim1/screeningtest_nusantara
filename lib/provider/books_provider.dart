@@ -42,6 +42,7 @@ class BookProvider with ChangeNotifier {
       } else {
         _bookState = BookState.Error;
         _bookMetaModel = bookResp.meta!;
+        debugPrint('Error [get books]: ${bookResp.meta!.message}');
         notifyListeners();
       }
     } catch (e) {
@@ -67,6 +68,7 @@ class BookProvider with ChangeNotifier {
       } else {
         _bookState = BookState.Error;
         _bookMetaModel = bookAddResp.meta!;
+        debugPrint('Error [addbooks]: ${bookAddResp.meta!.message}');
         notifyListeners();
       }
     } catch (e) {

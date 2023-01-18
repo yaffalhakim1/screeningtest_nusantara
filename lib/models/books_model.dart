@@ -88,7 +88,7 @@ class Link {
   bool? active;
 
   factory Link.fromJson(Map<String, dynamic> json) => Link(
-        url: json["url"],
+        url: json["url"] ?? "",
         label: json["label"],
         active: json["active"],
       );
@@ -128,7 +128,6 @@ class BookDataModel {
   int? user_id;
   int? id;
   int? pages;
-
   DateTime? createdAt;
   DateTime? updatedAt;
 
@@ -137,15 +136,15 @@ class BookDataModel {
         id: json["id"],
         isbn: json["isbn"],
         title: json["title"],
-        subtitle: json["subtitle"],
-        author: json["author"],
-        published: json["published"],
-        publisher: json["publisher"],
-        pages: json["pages"],
-        description: json["description"],
-        website: json["website"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
+        subtitle: json["subtitle"] ?? "",
+        author: json["author"] ?? "",
+        published: DateTime.tryParse(json["published"]) ?? DateTime.now(),
+        publisher: json["publisher"] ?? "",
+        pages: json["pages"] ?? "",
+        description: json["description"] ?? "",
+        website: json["website"] ?? "",
+        createdAt: DateTime.tryParse(json["created_at"]),
+        updatedAt: DateTime.tryParse(json["updated_at"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -160,8 +159,8 @@ class BookDataModel {
         "pages": pages,
         "description": description,
         "website": website,
-        "created_at": createdAt!.toIso8601String(),
-        "updated_at": updatedAt!.toIso8601String(),
+        "created_at": createdAt!,
+        "updated_at": updatedAt!,
       };
 }
 

@@ -16,22 +16,8 @@ class _AddBookState extends State<AddBook> {
   TextEditingController judulController = TextEditingController();
   bool isLoading = false;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   Future.microtask(() {
-  //     Provider.of<BookProvider>(
-  //       context,
-  //       listen: false,
-  //     )..addBooks();
-  //     // stickUserData();
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
-    BookProvider bookProvider = Provider.of<BookProvider>(context);
-
     Widget addISBN() {
       return Container(
         margin: const EdgeInsets.only(top: 20),

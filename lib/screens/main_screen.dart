@@ -50,7 +50,7 @@ class _MainScreenState extends State<MainScreen> {
               ),
             ),
             Consumer<BookProvider>(
-              builder: (context, data, _) {
+              builder: (context, data, child) {
                 final state = data.bookState;
                 final BookResponseModel dataBook = data.bookResponseModel;
                 final BookMetaModel meta = data.bookMetaModel;
@@ -74,7 +74,10 @@ class _MainScreenState extends State<MainScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const Icon(Icons.block_rounded, color: Colors.red),
-                        Text("Failed State // Error // ${meta.message}"),
+                        Text(
+                            "Gagal menampilkan data, silakan buka ulang halaman ini" +
+                                " " +
+                                meta.message!),
                       ],
                     ),
                   );
@@ -91,8 +94,6 @@ class _MainScreenState extends State<MainScreen> {
         child: Center(
           child: Column(
             children: [
-              const Text('Main Screen'),
-
               //list view
               booksList(),
               ElevatedButton(
@@ -100,7 +101,9 @@ class _MainScreenState extends State<MainScreen> {
                     Navigator.pushNamed(context, '/add-book');
                   },
                   child: const Text('Tambah Buku')),
-
+              SizedBox(
+                height: 8,
+              ),
               ElevatedButton(
                   onPressed: () {
                     AuthService().logout();

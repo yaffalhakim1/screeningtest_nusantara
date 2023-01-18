@@ -17,12 +17,13 @@ class BookService {
     try {
       var url = Uri.parse('$baseUrl/api/books');
       var headers = {
-        'Content-Type': 'application/json;charset=UTF-8',
+        "Access-Control-Allow-Origin": "*",
+        'Content-Type': 'application/json',
         HttpHeaders.authorizationHeader: "Bearer $token"
       };
       var books = await http.get(url, headers: headers);
       if (books.statusCode == 200) {
-        var data = jsonDecode(json.encode(books.body));
+        var data = jsonDecode(books.body);
         debugPrint('[getBook] : ${books.body}, ${books.statusCode}');
 
         BookResponseModel bookResponseModel = BookResponseModel.fromJson(data);
@@ -57,9 +58,10 @@ class BookService {
     var token = prefs.getString('token');
     try {
       var url = Uri.parse('$baseUrl/api/books/add');
-      Map<String, String> headers = {
+      dynamic headers = {
+        "Access-Control-Allow-Origin": "*",
         'Content-Type': 'application/json',
-        HttpHeaders.authorizationHeader: "Bearer $token",
+        'Authorization': 'Bearer $token',
       };
 
       var books = await http.post(
@@ -69,7 +71,78 @@ class BookService {
       );
 
       var data = jsonDecode(books.body);
-      debugPrint('[add books] : ${books.body}, ${books.statusCode}');
+
+      BookResponseModel bookResponseModel = BookResponseModel.fromJson(data);
+      return bookResponseModel;
+    } catch (e) {
+      return BookResponseModel.fromJson(
+        {
+          "meta": {
+            'status': 'error',
+            'message': '$e',
+          },
+          // "data": [],
+        },
+      );
+    }
+  }
+
+  Future deleteBook({
+    String? id,
+  }) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+    try {
+      var url = Uri.parse('$baseUrl/delete/$id');
+      dynamic headers = {
+        "Access-Control-Allow-Origin": "*",
+        'Content-Type': 'application/json',
+        HttpHeaders.authorizationHeader: "Bearer $token"
+      };
+
+      var books = await http.delete(
+        url,
+        headers: headers,
+      );
+
+      var data = jsonDecode(books.body);
+      BookResponseModel bookResponseModel = BookResponseModel.fromJson(data);
+      return bookResponseModel;
+    } catch (e) {
+      return BookResponseModel.fromJson(
+        {
+          "meta": {
+            'status': 'error',
+            'message': '$e',
+          },
+          // "data": [],
+        },
+      );
+    }
+  }
+
+  //create edit books function
+  Future<BookResponseModel> editBook({
+    BookAddModel? bookAddModel,
+    String? id,
+  }) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+    try {
+      var url = Uri.parse('$baseUrl/api/books/edit/$id');
+      dynamic headers = {
+        "Access-Control-Allow-Origin": "*",
+        'Content-Type': 'application/json',
+        HttpHeaders.authorizationHeader: "Bearer $token",
+      };
+
+      var books = await http.put(
+        url,
+        headers: headers,
+        body: jsonEncode(bookAddModel?.toJson()),
+      );
+
+      var data = jsonDecode(books.body);
 
       BookResponseModel bookResponseModel = BookResponseModel.fromJson(data);
       return bookResponseModel;

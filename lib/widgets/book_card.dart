@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/books_model.dart';
 import '../shared/themes.dart';
 
+// ignore: must_be_immutable
 class BookCard extends StatelessWidget {
   final BookDataModel book;
   BookCard(this.book);
@@ -11,14 +12,7 @@ class BookCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) => DetailTailor(tailor, tailor.uuid!),
-        //   ),
-        // );
-      },
+      onTap: () {},
       child: Container(
         height: 114,
         margin: EdgeInsets.only(bottom: 12, top: 10),
@@ -36,22 +30,7 @@ class BookCard extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Container(
-            //   width: 80,
-            //   height: 80,
-            //   margin: EdgeInsets.only(right: 18, top: 18, bottom: 18, left: 18),
-            //   decoration: BoxDecoration(
-            //     borderRadius: BorderRadius.circular(12),
-            //     image: DecorationImage(
-            //       image: NetworkImage(book. ?? ""),
-            //       fit: BoxFit.cover,
-            //     ),
-            //   ),
-            // ),
-
             CircleAvatar(
-              //make circle avatar contains number from 1
-              //to 10
               backgroundColor: Colors.blue,
               radius: 40,
               child: Text('${index + 1}'),
@@ -96,7 +75,7 @@ class BookCard extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 2.5),
                         child: Text(
-                          book.author!,
+                          book.subtitle!,
                           style: regularTextStyle.copyWith(
                               color: secondaryColor,
                               fontWeight: FontWeight.w600),
@@ -107,9 +86,9 @@ class BookCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  // Divider(
-                  //   thickness: 1,
-                  // ),
+                  Divider(
+                    thickness: 1,
+                  ),
                 ],
               ),
             ),
